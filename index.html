@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lakshya Purohit</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><text x=%2250%25%22 y=%2250%25%22 dy=%22.35em%22 fill=%22%23ffffff%22 font-family=%22sans-serif%22 font-weight=%22bold%22 font-size=%2250%22 text-anchor=%22middle%22>LP</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    
+    <!-- Tailwind CSS with Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    mono: ['JetBrains Mono', 'monospace'],
+                },
+                extend: {
+                    colors: {
+                        ios: {
+                            light: '#f2f2f7',
+                            card: '#ffffff',
+                            separator: '#c6c6c8',
+                            blue: '#007aff',
+                            gray: '#8e8e93',
+                        },
+                        dark: {
+                            bg: '#000000',
+                            card: '#1c1c1e',
+                            separator: '#38383a',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-item.active { background-color: rgba(0,0,0,0.05); }
+        .dark .nav-item.active { background-color: rgba(255,255,255,0.1); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Mobile Merged View Logic */
+        @media (max-width: 768px) {
+            #about.active ~ #tech-stacks {
+                display: block !important;
+                margin-top: 2rem;
+                animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+        }
+
+        /* Enhanced Cinematic Intro Animation */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        
+        .cinematic-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            filter: blur(12px);
+            background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            text-align: center;
+            line-height: 1.1;
+        }
+        @media (max-width: 768px) { 
+            .cinematic-text { font-size: 2.2rem; } 
+        }
+        
+        .cinematic-sub {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #94a3b8; /* Slate 400 */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .cinematic-sub::before, .cinematic-sub::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            opacity: 0.6;
+        }
+
+        .reveal-main { animation: cinematicReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.3s; }
+        .reveal-sub { animation: subReveal 1.2s ease-out forwards; animation-delay: 1.4s; }
+
+        @keyframes cinematicReveal {
+            to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        @keyframes subReveal {
+            to { opacity: 1; transform: translateY(0); letter-spacing: 0.25em; }
+        }
+
+        /* Chatbot Fixed Styles */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 100; /* High z-index to stay above nav */
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #chatbot-btn:active { transform: scale(0.9); }
+        @media (min-width: 768px) { #chatbot-btn { bottom: 30px; right: 30px; } }
+        
+        #chatbot-window {
+            position: fixed;
+            bottom: 85px; 
+            right: 20px;
+            width: 360px;
+            max-width: calc(100vw - 40px);
+            height: 550px;
+            max-height: 70vh;
+            z-index: 101;
+            /* Ensures it grows from the button location */
+            transform-origin: bottom right; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            /* display is handled by utility classes to allow toggling */
+        }
+        @media (min-width: 768px) { #chatbot-window { bottom: 90px; right: 30px; } }
+        
+        /* Chat Messages Scroll Fix */
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        /* Custom Scrollbar for Chat */
+        #chat-messages::-webkit-scrollbar { width: 4px; }
+        #chat-messages::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 4px; }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+            word-wrap: break-word;
+        }
+        .chat-user { background: #007aff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-bot { background: #f2f2f7; color: #1c1c1e; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .dark .chat-bot { background: #2c2c2e; color: #f2f2f7; box-shadow: none; border: 1px solid #38383a; }
+        
+        .bot-typing::after {
+            content: '...';
+            animation: typing 1.5s infinite;
+        }
+        @keyframes typing { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-sm bg-ios-light dark:bg-black text-[#1c1c1e] dark:text-[#f2f2f7] transition-colors duration-300">
+
+    <!-- Cinematic Intro Overlay -->
+    <div id="intro-overlay">
+        <div class="cinematic-text reveal-main">Lakshya Purohit</div>
+        <div class="cinematic-sub reveal-sub">The Developer You Are Looking For</div>
+    </div>
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="hidden md:flex flex-col w-[280px] h-full border-r border-[#d1d1d6]/50 dark:border-[#38383a] bg-[#f2f2f7]/80 dark:bg-[#1e1e1e]/40 backdrop-blur-xl">
+        
+        <!-- User Profile & Theme Toggle -->
+        <div class="h-20 flex items-center px-5 pt-2 justify-between">
+            <div class="flex items-center gap-3 w-full p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors cursor-default group">
+                <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden shadow-sm ring-2 ring-white/10">
+                   <img src="https://media.licdn.com/dms/image/v2/D5603AQFdYHYPzyBgHA/profile-displayphoto-crop_800_800/B56ZlGuSTfIsAI-/0/1757828163815?e=1769644800&v=beta&t=l4RBV1czYQdbp4nncGlEOfJQYag94WQPOf2g7xC2H8k" alt="LP" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col flex-1 min-w-0">
+                    <span class="font-semibold text-sm leading-tight tracking-tight">Lakshya Purohit</span>
+                    <span class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">Software Developer</span>
+                </div>
+                <!-- Desktop Theme Toggle -->
+                <button onclick="toggleTheme()" class="p-2 rounded-full text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all opacity-0 group-hover:opacity-100">
+                    <span class="iconify block dark:hidden" data-icon="lucide:moon" data-width="14"></span>
+                    <span class="iconify hidden dark:block" data-icon="lucide:sun" data-width="14"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="px-5 mb-2">
+            <div class="relative">
+                <span class="iconify absolute left-2.5 top-1.5 text-gray-400" data-icon="lucide:search" data-width="14"></span>
+                <input type="text" id="sidebar-search" onkeyup="filterSidebar()" placeholder="Search" class="w-full bg-[#e3e3e8] dark:bg-[#2c2c2e] text-black dark:text-white rounded-md py-1.5 pl-8 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 transition-all placeholder:text-gray-500 font-medium">
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 overflow-y-auto px-3 space-y-6 py-2" id="sidebar-nav-container">
+            
+            <!-- Section 1: General -->
+            <div class="space-y-0.5 nav-section">
+                <button onclick="switchTab('overview')" id="nav-overview" class="nav-item active w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#007aff] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:layout-grid" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">General</span>
+                </button>
+
+                <button onclick="switchTab('about')" id="nav-about" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#af52de] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:user" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">About Me</span>
+                </button>
+                
+                <button onclick="switchTab('projects')" id="nav-projects" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#5856d6] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:box" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Projects</span>
+                </button>
+                
+                <button onclick="switchTab('experience')" id="nav-experience" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#ff9500] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:briefcase" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Experience</span>
+                </button>
+
+                <button onclick="switchTab('achievements')" id="nav-achievements" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#ffcc00] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:award" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Achievements</span>
+                </button>
+
+                <!-- Download Resume Button -->
+                <button onclick="downloadResume()" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-emerald-500 flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:download" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Download Resume</span>
+                </button>
+
+                <button onclick="switchTab('contact')" id="nav-contact" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#34c759] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:message-circle" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Contact</span>
+                </button>
+            </div>
+
+            <!-- Skills Section (Desktop) -->
+            <div class="pt-2 border-t border-gray-200 dark:border-[#38383a] nav-section">
+                <div class="px-3 mb-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wide section-title">Skills</div>
+                
+                <button onclick="switchTab('tech-stacks')" id="nav-tech-stacks" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md transition-colors text-left group mb-0.5">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#5e5ce6] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:layers" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Tech Stack</span>
+                </button>
+            </div>
+
+            <!-- Socials Section -->
+            <div class="pt-2 border-t border-gray-200 dark:border-[#38383a] nav-section">
+                <div class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest section-title opacity-80">Socials</div>
+                <a href="https://github.com/Lakshya-Purohit" target="_blank" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#24292e] dark:bg-[#fff] flex items-center justify-center text-white dark:text-black shadow-sm">
+                        <span class="iconify" data-icon="lucide:github" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">GitHub</span>
+                    <span class="iconify ml-auto text-gray-400" data-icon="lucide:chevron-right" data-width="12"></span>
+                </a>
+                <a href="https://www.linkedin.com/in/lakshya-purohit-a472a6200/" target="_blank" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left mt-0.5">
+                    <div class="w-6 h-6 rounded-[6px] bg-[#0077b5] flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:linkedin" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">LinkedIn</span>
+                    <span class="iconify ml-auto text-gray-400" data-icon="lucide:chevron-right" data-width="12"></span>
+                </a>
+                <a href="#" target="_blank" class="nav-item w-full flex items-center gap-3 px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left mt-0.5">
+                    <div class="w-6 h-6 rounded-[6px] bg-red-600 flex items-center justify-center text-white shadow-sm">
+                        <span class="iconify" data-icon="lucide:car-front" data-width="14"></span>
+                    </div>
+                    <span class="font-medium tracking-wide">Car Portfolio</span>
+                    <span class="iconify ml-auto text-gray-400" data-icon="lucide:chevron-right" data-width="12"></span>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="p-4 border-t border-[#d1d1d6]/50 dark:border-[#38383a] text-center">
+            <p class="text-[10px] text-gray-400 font-medium">Made with ❤️ by Lakshya Purohit</p>
+            <p class="text-[9px] text-gray-500 mt-0.5">Last updated: Jan 12, 2026</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full relative w-full overflow-hidden">
+        
+        <!-- Mobile Header -->
+        <div class="md:hidden h-14 border-b border-[#d1d1d6] dark:border-[#38383a] flex items-center justify-between px-4 bg-[#f2f2f7]/90 dark:bg-black/90 backdrop-blur-md sticky top-0 z-20">
+            <div class="flex items-center gap-2">
+                 <span class="font-semibold text-lg tracking-tight">Settings</span>
+            </div>
+           
+            <div class="flex items-center gap-3">
+                 <!-- Theme Switcher Mobile -->
+                <button onclick="toggleTheme()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-[#2c2c2e] text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#3a3a3c] transition-colors">
+                     <span class="iconify block dark:hidden" data-icon="lucide:moon" data-width="16"></span>
+                     <span class="iconify hidden dark:block" data-icon="lucide:sun" data-width="16"></span>
+                </button>
+                
+                <!-- Profile Button (Links to About) -->
+                <button onclick="switchTab('about')" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ring-1 ring-white/10 active:opacity-80 transition-opacity">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQFdYHYPzyBgHA/profile-displayphoto-crop_800_800/B56ZlGuSTfIsAI-/0/1757828163815?e=1769644800&v=beta&t=l4RBV1czYQdbp4nncGlEOfJQYag94WQPOf2g7xC2H8k" alt="LP" class="w-full h-full object-cover">
+                </button>
+            </div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-10 pb-24 md:pb-10 bg-ios-light dark:bg-black">
+            <div class="max-w-3xl mx-auto space-y-8">
+
+                <!-- TAB: OVERVIEW (GENERAL) -->
+                <div id="overview" class="tab-content active fade-in">
+                    <div class="flex flex-col gap-6">
+                        <!-- Header -->
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#007aff] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:layout-grid" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Professional Overview</h2>
+                        </div>
+
+                        <!-- Dashboard Style Overview -->
+                        <div class="bg-white dark:bg-[#1c1c1e] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[#38383a] relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full"></div>
+                            
+                            <h3 class="text-base font-bold uppercase tracking-widest text-gray-400 mb-6 border-b border-gray-100 dark:border-[#2c2c2e] pb-2">Executive Summary</h3>
+                            
+                            <div class="grid grid-cols-1 gap-6">
+                                <p class="text-base text-gray-800 dark:text-gray-200 leading-relaxed font-medium">
+                                    Software Developer with a proven track record of engineering scalable systems and optimizing database performance by 60-70%. Passionate about <span class="text-blue-600 dark:text-blue-400">Data Science</span> and building high-efficiency architectures that drive business growth.
+                                </p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Current Focus</p>
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">Architecting Scalable Cloud Native Solutions</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Availability</p>
+                                        <span class="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+                                            <span class="relative flex h-2 w-2">
+                                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                            </span>
+                                            Open for Engineering Leadership Roles
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Key Impact</p>
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">Improved System Performance by 60-70%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Base of Operations</p>
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">India (Remote/Hybrid)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button onclick="switchTab('projects')" class="p-4 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] text-left hover:border-blue-500/50 transition-colors shadow-sm">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
+                                    <span class="iconify" data-icon="lucide:box" data-width="18"></span>
+                                </div>
+                                <span class="block font-semibold text-sm">Projects</span>
+                                <span class="text-[10px] text-gray-500">View deployments</span>
+                            </button>
+                            <button onclick="switchTab('experience')" class="p-4 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] text-left hover:border-orange-500/50 transition-colors shadow-sm">
+                                <div class="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-3">
+                                    <span class="iconify" data-icon="lucide:history" data-width="18"></span>
+                                </div>
+                                <span class="block font-semibold text-sm">Experience</span>
+                                <span class="text-[10px] text-gray-500">Timeline log</span>
+                            </button>
+                            <button onclick="switchTab('tech-stacks')" class="p-4 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] text-left hover:border-purple-500/50 transition-colors shadow-sm">
+                                <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3">
+                                    <span class="iconify" data-icon="lucide:cpu" data-width="18"></span>
+                                </div>
+                                <span class="block font-semibold text-sm">Stack</span>
+                                <span class="text-[10px] text-gray-500">Tech Arsenal</span>
+                            </button>
+                            <button onclick="switchTab('contact')" class="p-4 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] text-left hover:border-green-500/50 transition-colors shadow-sm">
+                                <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center mb-3">
+                                    <span class="iconify" data-icon="lucide:message-circle" data-width="18"></span>
+                                </div>
+                                <span class="block font-semibold text-sm">Contact</span>
+                                <span class="text-[10px] text-gray-500">Init Protocol</span>
+                            </button>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="group p-5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] transition-all shadow-sm">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                                        <span class="iconify" data-icon="lucide:zap" data-width="18"></span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Sys Performance</span>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-900 dark:text-white">+70%</div>
+                                <div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Optimization Achieved</div>
+                            </div>
+
+                            <div class="group p-5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] transition-all shadow-sm">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+                                        <span class="iconify" data-icon="lucide:database" data-width="18"></span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Query Speed</span>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-900 dark:text-white">+30%</div>
+                                <div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Efficiency Boost</div>
+                            </div>
+
+                            <div class="group p-5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-[#38383a] transition-all shadow-sm">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+                                        <span class="iconify" data-icon="lucide:git-commit" data-width="18"></span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Code Health</span>
+                                </div>
+                                <div class="text-2xl font-bold text-gray-900 dark:text-white">99.9%</div>
+                                <div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Uptime & Reliability</div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Resume Button (Bottom of General) -->
+                        <div class="mt-4">
+                            <button onclick="downloadResume()" class="w-full flex items-center justify-between p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-md active:scale-95 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <span class="iconify" data-icon="lucide:download" data-width="20"></span>
+                                    <span class="font-semibold text-sm">Download Resume</span>
+                                </div>
+                                <span class="iconify" data-icon="lucide:chevron-right" data-width="16"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: ABOUT -->
+                <div id="about" class="tab-content fade-in">
+                    <div class="flex flex-col gap-8">
+                        <!-- Header -->
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#af52de] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:user" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">About Me</h2>
+                        </div>
+
+                        <!-- Bio Section -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm p-6 space-y-5 border border-black/5 dark:border-white/5">
+                            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Profile</h3>
+                            <div class="space-y-4">
+                                <p class="text-sm text-gray-600 dark:text-gray-300 leading-7 font-normal">
+                                    I am a passionate Software Developer with a strong foundation in Computer Science, holding a B.Tech from Swami Keshvanand Institute of Technology, Jaipur. My expertise spans across the full stack, from engineering high-performance RESTful APIs with ASP.NET Core to building responsive, secure frontends using Angular.
+                                </p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 leading-7 font-normal">
+                                    Beyond coding, I have a proven track record in leadership and event management, having directed logistics for major festivals and coordinated large volunteer teams. I thrive in environments that challenge me to solve complex architectural problems, optimize database performance, and deliver robust, scalable solutions.
+                                </p>
+                            </div>
+                            
+                            <div class="pt-4 flex flex-col sm:flex-row gap-6 border-t border-gray-100 dark:border-white/5 mt-4">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Education</span>
+                                    <span class="text-sm font-medium text-black dark:text-white">B.Tech Computer Science</span>
+                                    <span class="text-xs text-gray-500">Swami Keshvanand Institute</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Location</span>
+                                    <span class="text-sm font-medium text-black dark:text-white">Jaipur, India</span>
+                                    <span class="text-xs text-gray-500">+91-8302457751</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: TECH STACKS (Merged) -->
+                <div id="tech-stacks" class="tab-content fade-in">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#5e5ce6] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:layers" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Tech Stack</h2>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase ml-1 mb-3 tracking-widest opacity-80">Core Architecture</h4>
+                            <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm divide-y divide-gray-100 dark:divide-[#2c2c2e] border border-black/5 dark:border-white/5">
+                                
+                                <!-- Backend -->
+                                <div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-default group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm">
+                                            <span class="iconify" data-icon="lucide:server" data-width="18"></span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Backend & API</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 font-medium">ASP.NET Core • RESTful • C#</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Frontend -->
+                                <div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-default group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 shadow-sm">
+                                            <span class="iconify" data-icon="lucide:layout" data-width="18"></span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Frontend & UI</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 font-medium">Angular (RxJS) • TypeScript • SignalR</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Database -->
+                                <div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-default group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm">
+                                            <span class="iconify" data-icon="lucide:database" data-width="18"></span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Data Persistence</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 font-medium">SQL Server • PostgreSQL • T-SQL</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase ml-1 mb-3 tracking-widest opacity-80">Specialized Systems</h4>
+                            <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm divide-y divide-gray-100 dark:divide-[#2c2c2e] border border-black/5 dark:border-white/5">
+                                <div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-default group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 shadow-sm">
+                                            <span class="iconify" data-icon="lucide:video" data-width="18"></span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Real-time Media</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 font-medium">WebRTC • Mediasoup (SFU)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-default group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-9 h-9 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600 dark:text-yellow-400 shadow-sm">
+                                            <span class="iconify" data-icon="lucide:scan" data-width="18"></span>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Computer Vision</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 font-medium">Python • OpenCV • Tesseract</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consolidated Technologies Grid -->
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase ml-1 mb-3 tracking-widest opacity-80">Languages & Tools</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Languages -->
+                                <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm p-5 border border-black/5 dark:border-white/5">
+                                    <h5 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-wide">Languages</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">C#</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">TypeScript</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Python</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Java</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">SQL</span>
+                                    </div>
+                                </div>
+
+                                <!-- Frameworks -->
+                                <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm p-5 border border-black/5 dark:border-white/5">
+                                    <h5 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-wide">Frameworks</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">.NET Core</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Angular</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">WPF</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Moqui</span>
+                                    </div>
+                                </div>
+
+                                <!-- Tools -->
+                                <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm p-5 border border-black/5 dark:border-white/5 md:col-span-2">
+                                    <h5 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-wide">Tools & Libs</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">WebRTC</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">OpenCV</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">PostgreSQL</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Git</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Docker</span>
+                                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-[#2c2c2e] rounded-md text-xs font-semibold text-gray-700 dark:text-gray-200">Kafka</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Footer inside Tech Stacks (appears at bottom of merged view) -->
+                        <div class="md:hidden pt-8 text-center pb-4">
+                            <p class="text-[10px] text-gray-400 font-medium">Made with ❤️ by Lakshya Purohit</p>
+                            <p class="text-[9px] text-gray-500 mt-0.5">Last updated: Jan 12, 2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: PROJECTS -->
+                <div id="projects" class="tab-content fade-in">
+                    <!-- ... Projects ... -->
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#5856d6] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:box" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Projects</h2>
+                        </div>
+
+                        <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm divide-y divide-gray-100 dark:divide-[#2c2c2e] border border-black/5 dark:border-white/5">
+                            <!-- Schema Tool -->
+                            <button type="button" onclick="handleProjectClick(this)"
+                                data-title="Database Schema Drift & Sync Tool"
+                                data-desc="Engineered a robust standalone tool to detect schema drift between database environments. Features include a visual diffing engine, automated safe migration workflow generation, and a production-grade error handling system. The solution provides an end-to-end full stack implementation with a polished UI for managing migrations and a high-performance backend for schema analysis."
+                                data-tags='["Backend System", "Tooling", "React/Angular", "SQL Analysis"]'
+                                data-link="https://db-version-control.onrender.com/"
+                                class="w-full flex items-center p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left group">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mr-4 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:database-zap" data-width="20"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-sm truncate text-gray-900 dark:text-white">Database Schema Drift Tool</div>
+                                    <div class="text-xs text-gray-500 truncate mt-0.5">Drift Detection • Migration Ops • Tooling</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-400 font-medium">Details</span>
+                                    <span class="iconify text-gray-300 dark:text-gray-600 group-hover:text-gray-400 transition-colors" data-icon="lucide:chevron-right" data-width="16"></span>
+                                </div>
+                            </button>
+
+                            <!-- Video e-KYC -->
+                            <button type="button" onclick="handleProjectClick(this)"
+                                data-title="Video e-KYC System"
+                                data-desc="Spearheaded the design of a secure solution leveraging WebRTC and Mediasoup (SFU) for real-time audio-video verification. Developed an Angular (TypeScript) frontend integrated with a Node.js backend to ensure high-quality, low-latency media streams, critical for remote identity verification compliance."
+                                data-tags='["WebRTC", "Mediasoup", "Angular", "Node.js"]'
+                                data-link="#"
+                                class="w-full flex items-center p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left group">
+                                <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mr-4 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:video" data-width="20"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-sm truncate text-gray-900 dark:text-white">Video e-KYC System</div>
+                                    <div class="text-xs text-gray-500 truncate mt-0.5">WebRTC • Mediasoup • Angular</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-400 font-medium">Details</span>
+                                    <span class="iconify text-gray-300 dark:text-gray-600 group-hover:text-gray-400 transition-colors" data-icon="lucide:chevron-right" data-width="16"></span>
+                                </div>
+                            </button>
+
+                            <!-- OCR System -->
+                            <button type="button" onclick="handleProjectClick(this)"
+                                data-title="OCR Invoice Extraction"
+                                data-desc="Developed an automated OCR system to extract invoice data and generate structured Excel reports using Python libraries. Implemented advanced image preprocessing pipelines (Thresholding, Denoising) using OpenCV and Pillow, which improved Tesseract OCR accuracy by 40% and significantly reduced manual data entry efforts."
+                                data-tags='["Python", "OpenCV", "Tesseract", "Pandas"]'
+                                data-link="#"
+                                class="w-full flex items-center p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left group">
+                                <div class="w-10 h-10 rounded-lg bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center text-yellow-600 dark:text-yellow-400 mr-4 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:scan-text" data-width="20"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-sm truncate text-gray-900 dark:text-white">OCR Invoice Engine</div>
+                                    <div class="text-xs text-gray-500 truncate mt-0.5">Python • OpenCV • Automation</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-400 font-medium">Details</span>
+                                    <span class="iconify text-gray-300 dark:text-gray-600 group-hover:text-gray-400 transition-colors" data-icon="lucide:chevron-right" data-width="16"></span>
+                                </div>
+                            </button>
+
+                            <!-- Warehouse System -->
+                            <button type="button" onclick="handleProjectClick(this)"
+                                data-title="Warehouse Management"
+                                data-desc="Co-engineered mission-critical features including Printing API and Invoicing for a complex Warehouse Management System. Optimized Microservices architecture to enhance system reliability and developed a Printing API to automate warehouse documentation, effectively reducing manual errors by 30%."
+                                data-tags='["Microservices", "API Design", "Backend"]'
+                                data-link="#"
+                                class="w-full flex items-center p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left group">
+                                <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mr-4 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:warehouse" data-width="20"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-sm truncate text-gray-900 dark:text-white">Warehouse Management</div>
+                                    <div class="text-xs text-gray-500 truncate mt-0.5">Microservices • Printing API • Optimization</div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs text-gray-400 font-medium">Details</span>
+                                    <span class="iconify text-gray-300 dark:text-gray-600 group-hover:text-gray-400 transition-colors" data-icon="lucide:chevron-right" data-width="16"></span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: EXPERIENCE -->
+                <div id="experience" class="tab-content fade-in">
+                    <!-- ... Experience Content ... -->
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#ff9500] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:briefcase" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Experience</h2>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Job 1 -->
+                            <div class="bg-white dark:bg-dark-card rounded-xl p-6 shadow-sm border border-l-4 border-green-500 border-t-black/5 dark:border-t-white/5 relative overflow-hidden">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-base text-gray-900 dark:text-white">AKAL Info Systems</h3>
+                                        <div class="text-xs text-gray-500 font-medium mt-0.5">Software Developer</div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-green-700 bg-green-100 dark:bg-green-500/20 dark:text-green-400 px-2.5 py-1 rounded-md">Aug 2025 - Present</span>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 text-[13px] text-gray-600 dark:text-gray-300 space-y-1.5 leading-relaxed marker:text-gray-400">
+                                    <li>Engineered high-performance ASP.NET Core RESTful APIs using C# and OOP.</li>
+                                    <li>Optimized Postgres queries improving system latency by 50%.</li>
+                                    <li>Architected secure Video e-KYC with Angular, WebRTC, and SignalR.</li>
+                                    <li>Implemented CI/CD pipelines for automated deployment.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Job 2 -->
+                            <div class="bg-white dark:bg-dark-card rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600 border border-black/5 dark:border-white/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-base text-gray-900 dark:text-white">LP Cloud Lab</h3>
+                                        <div class="text-xs text-gray-500 font-medium mt-0.5">Software Developer</div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-md">Jul 2024 - Jul 2025</span>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 text-[13px] text-gray-600 dark:text-gray-300 space-y-1.5 leading-relaxed marker:text-gray-400">
+                                    <li>Formulated scalable ASP.NET solutions using Dependency Injection.</li>
+                                    <li>Boosted performance by 20% via streamlined data exchange.</li>
+                                    <li>Tuned SQL Server stored procedures and Indexes, reducing API times by 30%.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Job 3 -->
+                            <div class="bg-white dark:bg-dark-card rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600 border border-black/5 dark:border-white/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-base text-gray-900 dark:text-white">NOI Technologies</h3>
+                                        <div class="text-xs text-gray-500 font-medium mt-0.5">Full Stack Developer (Intern)</div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-md">Jun 2023 - Dec 2023</span>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 text-[13px] text-gray-600 dark:text-gray-300 space-y-1.5 leading-relaxed marker:text-gray-400">
+                                    <li>Developed ERP modules using Moqui Framework (Java/Groovy).</li>
+                                    <li>Applied SOA and automation scripts for data processing.</li>
+                                    <li>Implemented RBAC Security models to protect multi-tenant data.</li>
+                                </ul>
+                            </div>
+
+                             <!-- Job 4 -->
+                             <div class="bg-white dark:bg-dark-card rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600 border border-black/5 dark:border-white/5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-base text-gray-900 dark:text-white">DRDO</h3>
+                                        <div class="text-xs text-gray-500 font-medium mt-0.5">Image Processing Intern</div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-md">Jun 2022 - Aug 2022</span>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 text-[13px] text-gray-600 dark:text-gray-300 space-y-1.5 leading-relaxed marker:text-gray-400">
+                                    <li>Engineered Python computer vision algorithms using OpenCV and NumPy.</li>
+                                    <li>Developed Neural Network-based object detection systems.</li>
+                                    <li>Collaborated on real-time processing for defense-grade image analysis.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: ACHIEVEMENTS -->
+                <div id="achievements" class="tab-content fade-in">
+                    <!-- ... Achievements Content ... -->
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#ffcc00] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:award" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Achievements</h2>
+                        </div>
+
+                        <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm divide-y divide-gray-100 dark:divide-[#2c2c2e] border border-black/5 dark:border-white/5">
+                             <div class="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shrink-0 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:users" data-width="20"></span>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Coordinator, PRAVAH Annual Fest</h3>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">Directed logistics and operations for a week-long fest attending by 10,000+ people.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:flag" data-width="20"></span>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Club Coordinator, Ek Bharat Shreshtha Bharat</h3>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">Led a team of 200+ volunteers, organizing 50+ events through strategic planning.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4 p-5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-sm">
+                                    <span class="iconify" data-icon="lucide:graduation-cap" data-width="20"></span>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">B.Tech in Computer Science</h3>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">Swami Keshvanand Institute of Technology, Jaipur</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: CONTACT -->
+                <div id="contact" class="tab-content fade-in">
+                    <!-- ... Contact Content ... -->
+                    <div class="max-w-xl mx-auto flex flex-col gap-6">
+                        <div class="flex items-center gap-3 mb-1">
+                            <div class="md:hidden w-8 h-8 rounded-lg bg-[#34c759] flex items-center justify-center text-white shadow-sm">
+                                <span class="iconify" data-icon="lucide:message-circle" data-width="18"></span>
+                            </div>
+                            <h2 class="text-2xl font-bold tracking-tight">Contact</h2>
+                        </div>
+
+                        <div class="bg-white dark:bg-dark-card rounded-xl overflow-hidden shadow-sm border border-black/5 dark:border-white/5">
+                            <div class="p-4 border-b border-gray-100 dark:border-[#2c2c2e]">
+                                <h3 class="font-semibold text-sm tracking-wide">Get in Touch</h3>
+                            </div>
+                            <div class="p-5 space-y-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400">
+                                        <span class="iconify" data-icon="lucide:mail" data-width="16"></span>
+                                    </div>
+                                    <div class="text-sm font-medium">lakshya.purohit.2105@gmail.com</div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                        <span class="iconify" data-icon="lucide:phone" data-width="16"></span>
+                                    </div>
+                                    <div class="text-sm font-medium">+91-8302457751</div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300">
+                                        <span class="iconify" data-icon="lucide:map-pin" data-width="16"></span>
+                                    </div>
+                                    <div class="text-sm font-medium">Jaipur, Rajasthan, India</div>
+                                </div>
+                                
+                                <!-- Merged Socials for Mobile Access -->
+                                <div class="pt-4 border-t border-gray-100 dark:border-[#2c2c2e] grid grid-cols-2 gap-3">
+                                     <a href="https://github.com/Lakshya-Purohit" target="_blank" class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#2c2c2e] rounded-lg hover:bg-gray-100 dark:hover:bg-[#3a3a3c] transition-colors border border-black/5 dark:border-transparent">
+                                        <div class="w-6 h-6 rounded bg-[#24292e] dark:bg-white flex items-center justify-center text-white dark:text-black">
+                                            <span class="iconify" data-icon="lucide:github" data-width="14"></span>
+                                        </div>
+                                        <span class="text-xs font-semibold">GitHub</span>
+                                    </a>
+                                     <a href="https://www.linkedin.com/in/lakshya-purohit-a472a6200/" target="_blank" class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#2c2c2e] rounded-lg hover:bg-gray-100 dark:hover:bg-[#3a3a3c] transition-colors border border-black/5 dark:border-transparent">
+                                        <div class="w-6 h-6 rounded bg-[#0077b5] flex items-center justify-center text-white">
+                                            <span class="iconify" data-icon="lucide:linkedin" data-width="14"></span>
+                                        </div>
+                                        <span class="text-xs font-semibold">LinkedIn</span>
+                                    </a>
+                                    <a href="#" target="_blank" class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#2c2c2e] rounded-lg hover:bg-gray-100 dark:hover:bg-[#3a3a3c] transition-colors border border-black/5 dark:border-transparent col-span-2">
+                                        <div class="w-6 h-6 rounded bg-red-600 flex items-center justify-center text-white">
+                                            <span class="iconify" data-icon="lucide:car-front" data-width="14"></span>
+                                        </div>
+                                        <span class="text-xs font-semibold">Car Portfolio</span>
+                                    </a>
+                                </div>
+                            </div>
+                             <div class="px-5 pb-5 pt-0">
+                                <a href="mailto:lakshya.purohit.2105@gmail.com" class="block w-full text-center bg-[#007aff] hover:bg-[#0066d6] text-white px-5 py-3 rounded-lg font-semibold text-sm transition-colors shadow-sm">
+                                    Send Email
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    
+    <!-- Mobile Bottom Navigation (Fixed Grid) -->
+    <nav class="md:hidden fixed bottom-0 w-full bg-[#f2f2f7]/90 dark:bg-[#1c1c1e]/90 backdrop-blur-xl border-t border-[#c6c6c8] dark:border-[#38383a] pb-safe z-30">
+        <div class="grid grid-cols-6 h-[55px] px-1">
+            <button onclick="switchTab('overview')" class="nav-item-mobile active w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="overview">
+                <span class="iconify" data-icon="lucide:layout-grid" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">General</span>
+            </button>
+            <button onclick="switchTab('about')" class="nav-item-mobile w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="about">
+                <span class="iconify" data-icon="lucide:user" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">About</span>
+            </button>
+             <button onclick="switchTab('projects')" class="nav-item-mobile w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="projects">
+                <span class="iconify" data-icon="lucide:box" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">Projects</span>
+            </button>
+            <button onclick="switchTab('experience')" class="nav-item-mobile w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="experience">
+                <span class="iconify" data-icon="lucide:briefcase" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">History</span>
+            </button>
+             <button onclick="switchTab('achievements')" class="nav-item-mobile w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="achievements">
+                <span class="iconify" data-icon="lucide:award" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">Awards</span>
+            </button>
+            <button onclick="switchTab('contact')" class="nav-item-mobile w-full flex flex-col items-center justify-center space-y-[2px] text-gray-400 hover:text-[#007aff]" data-target="contact">
+                <span class="iconify" data-icon="lucide:message-circle" data-width="20"></span>
+                <span class="text-[9px] font-medium truncate w-full text-center">Contact</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Chatbot Button -->
+    <button id="chatbot-btn" onclick="toggleChatbot()" class="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full text-white shadow-lg hover:scale-105 transition-transform">
+        <span class="iconify" data-icon="lucide:message-square" data-width="24"></span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatbot-window" class="hidden bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-2xl border border-gray-200 dark:border-[#38383a] flex-col overflow-hidden">
+        <!-- Header -->
+        <div class="h-14 bg-gray-50 dark:bg-[#2c2c2e] border-b border-gray-200 dark:border-[#38383a] flex items-center justify-between px-4">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span class="font-semibold text-sm">Assistant</span>
+            </div>
+            <button onclick="toggleChatbot()" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                <span class="iconify" data-icon="lucide:x" data-width="18"></span>
+            </button>
+        </div>
+        
+        <!-- Messages -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+            <div class="chat-message chat-bot">
+                Hello! I'm Lakshya's AI assistant. Ask me about his projects, skills, or experience!
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="p-3 border-t border-gray-200 dark:border-[#38383a] flex gap-2">
+            <input type="text" id="chat-input" placeholder="Ask a question..." class="flex-1 bg-gray-100 dark:bg-[#2c2c2e] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onkeypress="handleChatKey(event)">
+            <button onclick="sendMessage()" class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <span class="iconify" data-icon="lucide:send" data-width="16"></span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal (System Sheet Style) -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden" role="dialog">
+        <div class="absolute inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm transition-opacity opacity-0 modal-backdrop" onclick="closeProjectModal()"></div>
+        <div class="flex items-center justify-center min-h-screen p-4 pointer-events-none">
+            <div class="relative bg-[#f2f2f7] dark:bg-[#1c1c1e] rounded-2xl shadow-2xl max-w-lg w-full p-6 transform transition-all scale-95 opacity-0 modal-panel pointer-events-auto">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-white dark:bg-[#2c2c2e] flex items-center justify-center text-[#007aff] shadow-sm">
+                        <span class="iconify" data-icon="lucide:app-window" data-width="24"></span>
+                    </div>
+                    <button onclick="closeProjectModal()" class="bg-gray-200 dark:bg-[#3a3a3c] rounded-full p-1.5 text-gray-500 hover:text-black dark:hover:text-white transition-colors">
+                        <span class="iconify" data-icon="lucide:x" data-width="16"></span>
+                    </button>
+                </div>
+                
+                <h3 id="modal-title" class="text-xl font-bold text-black dark:text-white mb-2">Project</h3>
+                <div id="modal-tags" class="flex flex-wrap gap-2 mb-4"></div>
+                
+                <div class="bg-white dark:bg-[#2c2c2e] p-4 rounded-xl mb-6 shadow-sm">
+                    <p id="modal-desc" class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed"></p>
+                </div>
+
+                <div class="flex gap-3">
+                    <a id="modal-link" href="#" target="_blank" class="flex-1 bg-[#007aff] text-white hover:bg-[#0066d6] font-semibold text-sm py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm">
+                        Open Repository
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // Init Theme
+        const themeText = document.getElementById('theme-text');
+        
+        function updateThemeText(isDark) {
+            if(themeText) themeText.innerText = isDark ? 'Dark' : 'Light';
+        }
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            updateThemeText(false);
+        } else {
+            document.documentElement.classList.add('dark');
+            updateThemeText(true);
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeText(false);
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeText(true);
+            }
+        }
+
+        // Intro Animation Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const intro = document.getElementById('intro-overlay');
+                intro.style.opacity = '0';
+                intro.style.visibility = 'hidden'; // Ensure click-through
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                }, 1000);
+            }, 3500); // Extended slightly for full cinematic effect
+        });
+
+        function switchTab(tabId) {
+            // Content Fade
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if(target) {
+                target.classList.add('active');
+                target.classList.remove('fade-in');
+                void target.offsetWidth; 
+                target.classList.add('fade-in');
+            }
+
+            // Desktop Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navItem = document.getElementById('nav-' + tabId);
+            if(navItem) navItem.classList.add('active');
+
+            // Mobile Nav
+            document.querySelectorAll('.nav-item-mobile').forEach(el => {
+                el.classList.remove('text-[#007aff]');
+                el.classList.add('text-gray-400');
+                if(el.dataset.target === tabId) {
+                    el.classList.remove('text-gray-400');
+                    el.classList.add('text-[#007aff]');
+                }
+            });
+        }
+
+        // Search Function
+        function filterSidebar() {
+            const query = document.getElementById('sidebar-search').value.toLowerCase();
+            const navItems = document.querySelectorAll('aside .nav-item');
+            const navSections = document.querySelectorAll('aside .nav-section');
+
+            navItems.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if(text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Chatbot Logic (Optimized Local AI)
+        function toggleChatbot() {
+            const win = document.getElementById('chatbot-window');
+            const btn = document.getElementById('chatbot-btn');
+            
+            if(win.classList.contains('hidden')) {
+                win.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    win.style.transform = 'scale(1)';
+                    win.style.opacity = '1';
+                });
+                btn.classList.add('hidden');
+            } else {
+                win.style.transform = 'scale(0.9)';
+                win.style.opacity = '0';
+                setTimeout(() => {
+                    win.classList.add('hidden');
+                    btn.classList.remove('hidden');
+                }, 200);
+            }
+        }
+
+        function handleChatKey(e) {
+            if(e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+
+            addMessage(msg, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message chat-bot bot-typing';
+            typingDiv.id = 'bot-typing';
+            document.getElementById('chat-messages').appendChild(typingDiv);
+            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+
+            // Process response
+            setTimeout(() => {
+                const response = getBotResponse(msg);
+                const typingEl = document.getElementById('bot-typing');
+                if(typingEl) typingEl.remove();
+                addMessage(response, 'bot');
+            }, 800);
+        }
+
+        function addMessage(text, sender) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `chat-message chat-${sender}`;
+            // Allow basic HTML parsing for links
+            div.innerHTML = text; 
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Expanded Knowledge Base Logic
+        function getBotResponse(input) {
+            const lower = input.toLowerCase();
+            
+            // Identity & Role
+            if(lower.match(/who.*(lakshya|you)|your.*name/)) 
+                return "I'm the AI assistant for Lakshya Purohit, a Full Stack Developer & System Architect based in Jaipur, India.";
+            
+            if(lower.match(/what.*do|job|role|profession/)) 
+                return "Lakshya specializes in building high-performance web engines using .NET Core and Angular. He currently works as a Software Developer at AKAL Info Systems.";
+
+            // Hire / Good / Bad
+            if(lower.includes('hire') || lower.includes('good') || lower.includes('why'))
+                return "Lakshya is a high-impact developer who has proven to increase system performance by up to 70%. He builds scalable, robust solutions and brings a data-driven approach to software engineering. Definitely a great hire!";
+            
+            if(lower.includes('bad'))
+                return "Lakshya is dedicated to excellence and continuous improvement. His track record of optimizing complex systems speaks for itself.";
+
+            // Experience
+            if(lower.includes('experience') || lower.includes('work') || lower.includes('company')) 
+                return "Lakshya's professional timeline:<br>• <strong>AKAL Info Systems</strong> (Current): API Engineering & Optimization.<br>• <strong>LP Cloud Lab</strong>: Scalable Cloud Solutions.<br>• <strong>NOI Technologies</strong>: ERP & Moqui Framework.<br>• <strong>DRDO</strong>: Computer Vision Intern.";
+
+            // Projects
+            if(lower.includes('project') || lower.includes('build') || lower.includes('portfolio')) 
+                return "Key projects include:<br>1. <strong>Database Schema Drift Tool</strong>: Automated migration ops.<br>2. <strong>Video e-KYC</strong>: WebRTC real-time verification.<br>3. <strong>OCR Engine</strong>: Invoice data extraction.<br>Check the 'Projects' tab for details!";
+
+            // Skills
+            if(lower.includes('skill') || lower.includes('stack') || lower.includes('tech')) 
+                return "<strong>Core Stack:</strong> ASP.NET Core, Angular, SQL Server/Postgres.<br><strong>Languages:</strong> C#, TypeScript, Python, Java.<br><strong>Specialties:</strong> WebRTC, OpenCV, Docker, System Architecture.";
+
+            // Specific Tech
+            if(lower.includes('python')) return "Yes, Lakshya uses Python primarily for Computer Vision (OpenCV) and automation tasks (OCR).";
+            if(lower.includes('java')) return "Lakshya has experience with Java, particularly within the Moqui Ecosystem for ERP development.";
+            if(lower.includes('react')) return "While his primary frontend expertise is Angular, he is adaptable to modern JS frameworks.";
+
+            // Contact
+            if(lower.includes('contact') || lower.includes('email') || lower.includes('reach')) 
+                return "You can email him at <a href='mailto:lakshya.purohit.2105@gmail.com' class='underline'>lakshya.purohit.2105@gmail.com</a> or connect on <a href='https://linkedin.com/in/lakshya' target='_blank' class='underline'>LinkedIn</a>.";
+
+            // Resume
+            if(lower.includes('resume') || lower.includes('cv'))
+                return "You can download the full resume from the 'General' tab or by clicking the download button in the navigation.";
+
+            // Default
+            return "I can tell you about Lakshya's <strong>experience</strong>, <strong>projects</strong>, <strong>tech stack</strong>, or how to <strong>contact</strong> him. What would you like to know?";
+        }
+
+        // Resume Download Logic
+        function downloadResume() {
+            const resumeUrl = "https://docs.google.com/document/d/1QXMsRv8-HO6GgMjwXDKBD6rv7IirnCnm5zZBYpnHftI/export?format=pdf";
+            window.open(resumeUrl, '_blank');
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('project-modal');
+        const backdrop = modal.querySelector('.modal-backdrop');
+        const panel = modal.querySelector('.modal-panel');
+
+        function openProjectModal(title, desc, tags, link) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = '';
+            tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'px-2.5 py-1 bg-gray-100 dark:bg-[#3a3a3c] rounded-md text-[11px] font-semibold text-gray-600 dark:text-gray-300';
+                span.innerText = tag;
+                tagsContainer.appendChild(span);
+            });
+
+            const linkBtn = document.getElementById('modal-link');
+            // Remove existing event listeners by cloning or setting onclick
+            linkBtn.onclick = null; 
+
+            if(link && link !== '#') {
+                linkBtn.href = link;
+                linkBtn.target = "_blank"; // Ensure it opens in new tab
+                linkBtn.innerHTML = `Open Repository <span class="iconify" data-icon="lucide:external-link" data-width="14"></span>`;
+                linkBtn.classList.remove('opacity-70', 'cursor-not-allowed', 'bg-gray-600', 'hover:bg-gray-700');
+                linkBtn.classList.add('bg-[#007aff]', 'hover:bg-[#0066d6]', 'text-white');
+                // Standard behavior
+            } else {
+                linkBtn.href = 'javascript:void(0)';
+                linkBtn.innerHTML = `Company Project <span class="iconify" data-icon="lucide:lock" data-width="14"></span>`;
+                
+                // Change styling to indicate it's different but clickable
+                linkBtn.classList.remove('bg-[#007aff]', 'hover:bg-[#0066d6]');
+                linkBtn.classList.add('bg-gray-600', 'hover:bg-gray-700', 'text-white', 'opacity-90'); 
+                linkBtn.classList.remove('opacity-50', 'cursor-not-allowed'); // Make it look clickable
+                
+                linkBtn.onclick = (e) => {
+                    e.preventDefault();
+                    alert("This project was developed for a corporate client. Source code is proprietary and not available for public display.");
+                };
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('scale-95', 'opacity-0');
+                panel.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function handleProjectClick(button) {
+            const title = button.getAttribute('data-title');
+            const desc = button.getAttribute('data-desc');
+            const tags = JSON.parse(button.getAttribute('data-tags'));
+            const link = button.getAttribute('data-link');
+            openProjectModal(title, desc, tags, link);
+        }
+
+        function closeProjectModal() {
+            backdrop.classList.add('opacity-0');
+            panel.classList.remove('scale-100', 'opacity-100');
+            panel.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
