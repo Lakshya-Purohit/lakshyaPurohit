@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lakshya Purohit</title>
+    <title>Lakshya Purohit | Settings</title>
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><text x=%2250%25%22 y=%2250%25%22 dy=%22.35em%22 fill=%22%23ffffff%22 font-family=%22sans-serif%22 font-weight=%22bold%22 font-size=%2250%22 text-anchor=%22middle%22>LP</text></svg>">
@@ -144,7 +144,7 @@
         /* Chatbot Fixed Styles */
         #chatbot-btn {
             position: fixed;
-            bottom: 80px;
+            bottom: 70px; /* Adjusted for mobile nav */
             right: 20px;
             z-index: 100; /* High z-index to stay above nav */
             box-shadow: 0 8px 30px rgba(0,0,0,0.3);
@@ -155,19 +155,27 @@
         
         #chatbot-window {
             position: fixed;
-            bottom: 85px; 
+            bottom: 80px; 
             right: 20px;
             width: 360px;
             max-width: calc(100vw - 40px);
-            height: 550px;
-            max-height: 70vh;
+            height: 500px;
+            max-height: 60vh;
             z-index: 101;
             /* Ensures it grows from the button location */
             transform-origin: bottom right; 
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 1rem;
             /* display is handled by utility classes to allow toggling */
         }
-        @media (min-width: 768px) { #chatbot-window { bottom: 90px; right: 30px; } }
+        @media (min-width: 768px) { 
+            #chatbot-window { 
+                bottom: 90px; 
+                right: 30px;
+                height: 550px;
+                max-height: 70vh; 
+            } 
+        }
         
         /* Chat Messages Scroll Fix */
         #chat-messages {
@@ -942,7 +950,7 @@
                                         </div>
                                         <span class="text-xs font-semibold">LinkedIn</span>
                                     </a>
-                                    <a href="#" target="_blank" class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#2c2c2e] rounded-lg hover:bg-gray-100 dark:hover:bg-[#3a3a3c] transition-colors border border-black/5 dark:border-transparent col-span-2">
+                                    <a href="#" target="https://db-version-control.onrender.com/" class="flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#2c2c2e] rounded-lg hover:bg-gray-100 dark:hover:bg-[#3a3a3c] transition-colors border border-black/5 dark:border-transparent col-span-2">
                                         <div class="w-6 h-6 rounded bg-red-600 flex items-center justify-center text-white">
                                             <span class="iconify" data-icon="lucide:car-front" data-width="14"></span>
                                         </div>
@@ -999,7 +1007,7 @@
     </button>
 
     <!-- Chatbot Window -->
-    <div id="chatbot-window" class="hidden bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-2xl border border-gray-200 dark:border-[#38383a] flex-col overflow-hidden">
+    <div id="chatbot-window" class="hidden flex flex-col bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-2xl border border-gray-200 dark:border-[#38383a] overflow-hidden">
         <!-- Header -->
         <div class="h-14 bg-gray-50 dark:bg-[#2c2c2e] border-b border-gray-200 dark:border-[#38383a] flex items-center justify-between px-4">
             <div class="flex items-center gap-2">
